@@ -1,0 +1,102 @@
+.header {
+  width: 100%;
+  border-bottom: 1px solid #273449;
+  background: #172033;
+  color: #f8fafc;
+}
+
+.navbarContainer {
+  display: flex;
+  width: min(100% - 40px, 1120px);
+  min-height: 76px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.navbarLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.logoMark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  background: #f4b942;
+  color: #172033;
+  font-size: 18px;
+  font-weight: 800;
+  box-shadow: 0 5px 14px rgb(244 185 66 / 20%);
+}
+
+.navbarMenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbarItem a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #c8d1df;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.navbarItem a:hover,
+.navbarItem a:focus-visible {
+  border-color: #3a4960;
+  background: #253149;
+  color: #ffffff;
+  outline: none;
+}
+
+.navbarLogo:focus-visible {
+  border-radius: 8px;
+  outline: 3px solid rgb(244 185 66 / 55%);
+  outline-offset: 5px;
+}
+
+@media (max-width: 560px) {
+  .navbarContainer {
+    width: min(100% - 28px, 1120px);
+    min-height: 68px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .navbarMenu {
+    width: 100%;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .navbarItem {
+    flex: 1;
+  }
+
+  .navbarItem a {
+    width: 100%;
+    justify-content: center;
+    padding: 0 8px;
+  }
+}
