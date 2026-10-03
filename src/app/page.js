@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProductItem from "../components/ProductItem";
+import ProductItem from "../components/ProductItem/ProductItem";
 import styles from "./page.module.css";
 
 export default function Home() {
