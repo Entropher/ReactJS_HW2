@@ -1,68 +1,57 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import ProductItem from "../components/ProductItem";
 import styles from "./page.module.css";
 
-export default async function Home() {
-  let products;
+export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  try {
-    const response = await fetch("https://fakestoreapi.com/products", {
-      cache: "no-store",
-    });
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://fakestoreapi.com/products");
 
-    if (!response.ok) {
-      throw new Error("Product request failed");
-    }
+        if (!response.ok) {
+          throw new Error("პროდუქტების მოთხოვნა ვერ შესრულდა");
+        }
 
-    products = await response.json();
-  } catch {
-    return (
-      <div className={styles.page}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>FAKE STORE / COLLECTION</p>
-          <h1>Products</h1>
-        </header>
-        <p className={styles.message}>
-          Unable to load products. Please try again later.
-        </p>
-      </div>
-    );
-  }
+        const result = await response.json();
+        setProducts(result);
+      } catch {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const formatPrice = (price) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
+    fetchProducts();
+  }, []);
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}>FAKE STORE / COLLECTION</p>
+        <p className={styles.eyebrow}>ონლაინ მაღაზია / კოლექცია</p>
         <div className={styles.headingRow}>
-          <h1>Products</h1>
-          <span className={styles.count}>{products.length} items</span>
+          <h1>პროდუქტები</h1>
+          {!loading && !error && (
+            <span className={styles.count}>{products.length} პროდუქტი</span>
+          )}
         </div>
-        <p className={styles.subtitle}>Explore our online collection</p>
+        <p className={styles.subtitle}>დაათვალიერეთ ჩვენი ონლაინ კოლექცია</p>
       </header>
 
-      <main className={styles.grid}>
-        {products.map((item) => (
-          <article className={styles.product} key={item.id}>
-            <div className={styles.imageWrap}>
-              <img className={styles.image} src={item.image} alt={item.title} />
-            </div>
-            <div className={styles.details}>
-              <p className={styles.category}>{item.category}</p>
-              <h2 className={styles.title}>{item.title}</h2>
-              <div className={styles.meta}>
-                <span className={styles.price}>{formatPrice(item.price)}</span>
-                <span className={styles.rating}>
-                  <span>★</span> {item.rating.rate} ({item.rating.count})
-                </span>
-              </div>
-            </div>
-          </article>
-        ))}
-      </main>
+      {loading && <p className={styles.message}>იტვირთება</p>}
+      {error && <p className={styles.message}>მოხდა შეცდომა</p>}
+      {!loading && !error && (
+        <main className={styles.grid}>
+          {products.map((product) => (
+            <ProductItem key={product.id} product={product} />
+          ))}
+        </main>
+      )}
     </div>
   );
 }
